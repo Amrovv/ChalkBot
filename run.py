@@ -937,12 +937,9 @@ async def main(args: argparse.Namespace) -> int:
 
     server = None
     if not args.fast:
-        create_app = load("coach.server", "create_app", stubs.create_app)
-        if "control" in inspect.signature(create_app).parameters:
-            app = create_app(bus, None, control=session)
-        else:  # the older stub server can't switch sources
-            app = create_app(bus, build_hello(args))
-        server = QuietServer(app, args.host, args.port)
+        from coach.server import create_app
+
+        server = QuietServer(create_app(bus, None, control=session), args.host, args.port)
 
     tasks = [asyncio.create_task(bus_log.run(), name="bus-log")]
     if transcript is not None:

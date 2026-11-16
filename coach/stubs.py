@@ -15,7 +15,6 @@ D's own plumbing (not stand-ins):
                     perception (blocking get); the two are different hops.
   BusLog            writes every bus topic except "frame" to a JSONL file.
   encode_jpeg       BGR frame -> dashboard JPEG.
-  create_app        older copy of the dashboard server; coach/server/app.py is the real one.
 
   uv run python -m coach.stubs     # demo: replays a few fake states through the stub brain
 """
@@ -23,18 +22,12 @@ D's own plumbing (not stand-ins):
 from __future__ import annotations
 
 import asyncio
-import contextlib
 import json
 import logging
 import threading
 import time
-from collections.abc import AsyncIterator
 from pathlib import Path
 from typing import Any
-
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse, StreamingResponse
-from fastapi.staticfiles import StaticFiles
 
 from coach.bus import Bus, to_jsonable
 from coach.contracts import (
@@ -53,15 +46,12 @@ from coach.contracts import (
 log = logging.getLogger("coach.stubs")
 
 ROOT = Path(__file__).resolve().parent.parent
-WEB_DIR = ROOT / "web"
 HOLDMAP_DIR = ROOT / "data" / "holdmaps"
 
 # Streaming settings for the dashboard (not coaching thresholds, so not in config/default.yaml).
 FRAME_FPS = 10.0  # frames sent to the dashboard per second
 FRAME_MAX_SIDE = 960  # downscale frames whose longer side is bigger (portrait or landscape)
 FRAME_JPEG_QUALITY = 75
-DASHBOARD_STATE_HZ = 10.0  # ClimberState forwarded to the dashboard at most this often
-CLIENT_QUEUE_MAX = 64  # per-dashboard backlog; the oldest message is dropped when full
 CAMERA_RETRY_S = 0.5
 JOIN_TIMEOUT_S = 2.0
 
@@ -589,128 +579,6 @@ class Transcript:
             self._handle(*self._queue.get_nowait())
         self._file.close()
         log.info("brain transcript written to %s", self.path)
-
-
-# ---- Dashboard server -------------------------------------------------------------------
-
-
-class Hub:
-    """Fans bus topics out to every connected dashboard. Subscribes once per topic, so clients
-    can come and go without leaking bus queues. Frames go out as binary JPEG, the rest as
-    {"topic", "data"} JSON. Slow clients lose their oldest messages, never stall the loop."""
-
-    def __init__(self, bus: Bus, hello: dict) -> None:
-        self.hello = json.dumps({"topic": "hello", "data": hello})
-        self._sources = [(topic, bus.subscribe(topic)) for topic in TOPICS]
-        self.clients: set[asyncio.Queue] = set()
-        self.holdmap_msg: str | None = None
-        self.frame: bytes | None = None
-        self.frame_seq = 0
-        self._frame_cond = asyncio.Condition()
-        self._last_state = 0.0
-        self._tasks: list[asyncio.Task] = []
-
-    def start(self) -> None:
-        self._tasks = [asyncio.create_task(self._pump(t, q)) for t, q in self._sources]
-
-    async def stop(self) -> None:
-        for task in self._tasks:
-            task.cancel()
-        await asyncio.gather(*self._tasks, return_exceptions=True)
-
-    async def _pump(self, topic: str, q: asyncio.Queue) -> None:
-        while True:
-            payload = await q.get()
-            if topic == "frame":
-                await self._new_frame(payload)
-                continue
-            if topic == "state":
-                now = time.monotonic()
-                if now - self._last_state < 1.0 / DASHBOARD_STATE_HZ:
-                    continue
-                self._last_state = now
-            msg = json.dumps({"topic": topic, "data": to_jsonable(payload)})
-            if topic == "holdmap":
-                self.holdmap_msg = msg
-            self._broadcast(msg)
-
-    async def _new_frame(self, jpeg: bytes) -> None:
-        async with self._frame_cond:
-            self.frame, self.frame_seq = jpeg, self.frame_seq + 1
-            self._frame_cond.notify_all()
-        self._broadcast(jpeg)
-
-    def _broadcast(self, msg: str | bytes) -> None:
-        for q in self.clients:
-            if q.full():
-                q.get_nowait()
-            q.put_nowait(msg)
-
-    async def frames(self) -> AsyncIterator[bytes]:
-        """Each new frame as it arrives (for MJPEG)."""
-        seen = self.frame_seq
-        while True:
-            async with self._frame_cond:
-                await self._frame_cond.wait_for(lambda seen=seen: self.frame_seq != seen)
-                seen, jpeg = self.frame_seq, self.frame
-            yield jpeg
-
-
-def create_app(bus: Bus, hello: dict):
-    """Dashboard server: web/index.html, its fonts, /ws (bus topics + frames), /video (MJPEG)."""
-    hub = Hub(bus, hello)
-
-    @contextlib.asynccontextmanager
-    async def lifespan(app):
-        hub.start()
-        yield
-        await hub.stop()
-
-    app = FastAPI(lifespan=lifespan)
-    app.state.hub = hub
-
-    @app.get("/")
-    async def index() -> FileResponse:
-        return FileResponse(WEB_DIR / "index.html")
-
-    app.mount("/fonts", StaticFiles(directory=WEB_DIR / "fonts"), name="fonts")
-
-    @app.websocket("/ws")
-    async def ws(sock: WebSocket) -> None:
-        await sock.accept()
-        q: asyncio.Queue = asyncio.Queue(maxsize=CLIENT_QUEUE_MAX)
-        hub.clients.add(q)
-        log.info("dashboard connected (%d open)", len(hub.clients))
-        try:
-            await sock.send_text(hub.hello)
-            if hub.holdmap_msg:
-                await sock.send_text(hub.holdmap_msg)
-            while True:
-                msg = await q.get()
-                if isinstance(msg, bytes):
-                    await sock.send_bytes(msg)
-                else:
-                    await sock.send_text(msg)
-        except (WebSocketDisconnect, RuntimeError):
-            pass
-        finally:
-            hub.clients.discard(q)
-            log.info("dashboard disconnected (%d open)", len(hub.clients))
-
-    @app.get("/video")
-    async def video() -> StreamingResponse:
-        async def gen():
-            async for jpeg in hub.frames():
-                yield (
-                    b"--frame\r\nContent-Type: image/jpeg\r\n"
-                    + f"Content-Length: {len(jpeg)}\r\n\r\n".encode()
-                    + jpeg
-                    + b"\r\n"
-                )
-
-        return StreamingResponse(gen(), media_type="multipart/x-mixed-replace; boundary=frame")
-
-    return app
 
 
 # ---- Demo -------------------------------------------------------------------------------
