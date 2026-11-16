@@ -227,7 +227,7 @@ def create_app(
         yield
         await hub.stop()
 
-    app = FastAPI(title="Climbing Coach", lifespan=lifespan)
+    app = FastAPI(title="Chalkbot", lifespan=lifespan)
     app.state.hub = hub
     app.state.holds = builder
 

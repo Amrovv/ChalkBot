@@ -13,7 +13,7 @@ spoken cues but is not the dashboard's main reader. The team also uses its laten
 panels while building, but that is secondary.
 
 ## Product Purpose
-Climbing Coach is a real-time AI bouldering coach built for incident.io's "Live commentator"
+Chalkbot is a real-time AI bouldering coach built for incident.io's "Live commentator"
 hackathon challenge (24 h, team of 4). A fixed camera watches a climber. The system speaks short
 coaching cues mid-climb and gives a persona-driven debrief between attempts, remembering earlier
 attempts. Success means the live demo convinces judges of three things:

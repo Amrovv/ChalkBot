@@ -207,7 +207,7 @@ def source_spec(text: str) -> int | str:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Climbing Coach: live cues and debriefs.")
+    p = argparse.ArgumentParser(description="Chalkbot: live cues and debriefs.")
     p.add_argument("--source", type=source_spec, help="cam:N or file:PATH")
     p.add_argument("--replay-pose", type=Path, metavar="PATH.jsonl", help="replay recorded poses")
     p.add_argument(

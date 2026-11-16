@@ -7,10 +7,10 @@
 
 <br />
 <div align="center">
-  <h3 align="center">Climbing Coach</h3>
+  <h3 align="center">Chalkbot</h3>
 
   <p align="center">
-    A real-time AI bouldering coach. A fixed camera watches a climber. While they climb, the coach speaks short cues about what it sees, such as feet left low, arms bent too long, or a hand searching for a hold. Between attempts it gives a spoken debrief in character, and it remembers earlier attempts. The live loop runs entirely on the local machine. It turns a camera frame into a spoken line handed to the audio device in a median of 47 ms.
+    Chalkbot is a real-time AI bouldering coach. A fixed camera watches a climber. While they climb, the coach speaks short cues about what it sees, such as feet left low, arms bent too long, or a hand searching for a hold. Between attempts it gives a spoken debrief in character, and it remembers earlier attempts. The live loop runs entirely on the local machine. It turns a camera frame into a spoken line handed to the audio device in a median of 47 ms.
     <br />
     <a href="docs/BENCHMARKS.md"><strong>Benchmarks and how they were measured</strong></a>
     &middot;
