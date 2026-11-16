@@ -1,0 +1,2510 @@
+{
+ "kind": "e2e",
+ "environment": {
+  "cpu": "Intel(R) Core(TM) i5-9600K CPU @ 3.70GHz",
+  "logical_cores": 6,
+  "os": "Windows-11-10.0.26300-SP0",
+  "python": "3.12.13",
+  "clock_resolution_ms": 15.625,
+  "packages": {
+   "mediapipe": "1.2.2",
+   "opencv-contrib-python": "5.0.0.93",
+   "numpy": "2.3.5",
+   "kokoro": "0.9.4",
+   "sounddevice": "0.5.6"
+  },
+  "date": "2026-11-16",
+  "audible": false
+ },
+ "summary": {
+  "cues": 164,
+  "total": {
+   "n": 164,
+   "mean": 141.525,
+   "p50": 140.33,
+   "p95": 171.33,
+   "p99": 171.33,
+   "max": 186.33
+  },
+  "to_device": {
+   "n": 164,
+   "mean": 48.195,
+   "p50": 47.0,
+   "p95": 78.0,
+   "p99": 78.0,
+   "max": 93.0
+  },
+  "event_to_device": {
+   "n": 164,
+   "mean": 5.226,
+   "p50": 0.0,
+   "p95": 16.0,
+   "p99": 31.0,
+   "max": 32.0
+  },
+  "capture_to_event": {
+   "n": 164,
+   "mean": 42.97,
+   "p50": 47.0,
+   "p95": 63.0,
+   "p99": 63.0,
+   "max": 78.0
+  },
+  "event_to_audio": {
+   "n": 164,
+   "mean": 98.556,
+   "p50": 93.33,
+   "p95": 109.33,
+   "p99": 124.33,
+   "max": 125.33
+  },
+  "frame_to_state": {
+   "n": 27445,
+   "mean": 43.941,
+   "p50": 47.0,
+   "p95": 63.0,
+   "p99": 78.0,
+   "max": 219.0
+  },
+  "by_kind": {
+   "arms_bent": {
+    "n": 1,
+    "mean": 156.33,
+    "p50": 156.33,
+    "p95": 156.33,
+    "p99": 156.33,
+    "max": 156.33
+   },
+   "attempt_start": {
+    "n": 36,
+    "mean": 144.997,
+    "p50": 140.33,
+    "p95": 171.33,
+    "p99": 181.08,
+    "max": 186.33
+   },
+   "crux_warning": {
+    "n": 1,
+    "mean": 140.33,
+    "p50": 140.33,
+    "p95": 140.33,
+    "p99": 140.33,
+    "max": 140.33
+   },
+   "fall": {
+    "n": 3,
+    "mean": 160.997,
+    "p50": 171.33,
+    "p95": 171.33,
+    "p99": 171.33,
+    "max": 171.33
+   },
+   "feet_cut": {
+    "n": 4,
+    "mean": 132.58,
+    "p50": 132.83,
+    "p95": 140.33,
+    "p99": 140.33,
+    "max": 140.33
+   },
+   "feet_low": {
+    "n": 29,
+    "mean": 137.399,
+    "p50": 140.33,
+    "p95": 155.93,
+    "p99": 156.33,
+    "max": 156.33
+   },
+   "hand_searching": {
+    "n": 20,
+    "mean": 137.08,
+    "p50": 139.83,
+    "p95": 156.33,
+    "p99": 156.33,
+    "max": 156.33
+   },
+   "high_point": {
+    "n": 2,
+    "mean": 155.33,
+    "p50": 155.33,
+    "p95": 155.33,
+    "p99": 155.33,
+    "max": 155.33
+   },
+   "quiet_feet": {
+    "n": 18,
+    "mean": 140.997,
+    "p50": 140.33,
+    "p95": 171.33,
+    "p99": 171.33,
+    "max": 171.33
+   },
+   "route_preview": {
+    "n": 20,
+    "mean": 141.03,
+    "p50": 140.33,
+    "p95": 171.33,
+    "p99": 171.33,
+    "max": 171.33
+   },
+   "stalling": {
+    "n": 2,
+    "mean": 148.33,
+    "p50": 148.33,
+    "p95": 155.53,
+    "p99": 156.17,
+    "max": 156.33
+   },
+   "told_you_so": {
+    "n": 7,
+    "mean": 142.473,
+    "p50": 140.33,
+    "p95": 156.03,
+    "p99": 156.27,
+    "max": 156.33
+   },
+   "top": {
+    "n": 11,
+    "mean": 144.512,
+    "p50": 140.33,
+    "p95": 171.33,
+    "p99": 171.33,
+    "max": 171.33
+   },
+   "weight_shift": {
+    "n": 10,
+    "mean": 140.13,
+    "p50": 140.33,
+    "p95": 155.33,
+    "p99": 155.33,
+    "max": 155.33
+   }
+  },
+  "within_target": 164,
+  "target_ms": 800.0,
+  "output_latency_ms": 93.33,
+  "events": 356,
+  "suppressed": {
+   "late": 5,
+   "busy": 153,
+   "cooldown": 3,
+   "budget": 29,
+   "lower_priority": 2
+  },
+  "frames_total": 31475,
+  "frames_analysed": 27445,
+  "footage_s": 966.7,
+  "checks_passed": 14,
+  "checks_total": 22
+ },
+ "clips": [
+  {
+   "clip": "climb_1_01_standing_at_base.mp4",
+   "problem": "climb_1",
+   "number": "01",
+   "frames": 468,
+   "fps": 59.94,
+   "duration_s": 7.81,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 180,
+   "analysed_fps": 23.0,
+   "events": {
+    "route_preview": 1
+   },
+   "spoken": {
+    "route_preview": 1
+   },
+   "suppressed": {},
+   "attempts": [],
+   "check": {
+    "expected": "no `attempt_start`",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 78.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 171.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_1_02_clean_send_steady_pace.mp4",
+   "problem": "climb_1",
+   "number": "02",
+   "frames": 1403,
+   "fps": 59.94,
+   "duration_s": 23.41,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 501,
+   "analysed_fps": 21.4,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "hand_searching": 1,
+    "feet_low": 1,
+    "top": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "feet_low": 1,
+    "top": 1
+   },
+   "suppressed": {
+    "late": 1
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "top",
+     "high_hold": 11
+    }
+   ],
+   "check": {
+    "expected": "an attempt ends \"top\"",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 62.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 124.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 156.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_1_03_clip_feet_low.mp4",
+   "problem": "climb_1",
+   "number": "03",
+   "frames": 1472,
+   "fps": 59.94,
+   "duration_s": 24.56,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 568,
+   "analysed_fps": 23.1,
+   "events": {
+    "route_preview": 2,
+    "attempt_start": 1,
+    "quiet_feet": 4,
+    "feet_cut": 1,
+    "hand_searching": 1,
+    "top": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "quiet_feet": 1,
+    "top": 1
+   },
+   "suppressed": {
+    "busy": 6
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "top",
+     "high_hold": 11
+    }
+   ],
+   "check": {
+    "expected": "`feet_low` detected",
+    "ok": false
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 62.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 171.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 171.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_1_04_bent_arms.mp4",
+   "problem": "climb_1",
+   "number": "04",
+   "frames": 1610,
+   "fps": 59.94,
+   "duration_s": 26.86,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 686,
+   "analysed_fps": 25.5,
+   "events": {
+    "attempt_start": 1,
+    "feet_cut": 1,
+    "quiet_feet": 1,
+    "weight_shift": 2,
+    "feet_low": 1,
+    "top": 1,
+    "route_preview": 1
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "weight_shift": 2,
+    "top": 1
+   },
+   "suppressed": {
+    "busy": 4
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "top",
+     "high_hold": 11
+    }
+   ],
+   "check": {
+    "expected": "`arms_bent` detected",
+    "ok": false
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 62.0,
+     "event_to_audio_ms": 124.33,
+     "total_ms": 186.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_2_05_hand_searching.mp4",
+   "problem": "climb_2",
+   "number": "05",
+   "frames": 955,
+   "fps": 30.0,
+   "duration_s": 31.83,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 883,
+   "analysed_fps": 27.7,
+   "events": {
+    "attempt_start": 1,
+    "feet_low": 3,
+    "hand_searching": 5,
+    "told_you_so": 2,
+    "top": 1,
+    "route_preview": 1
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "feet_low": 2,
+    "hand_searching": 1,
+    "told_you_so": 1,
+    "top": 1
+   },
+   "suppressed": {
+    "busy": 6,
+    "late": 1
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "top",
+     "high_hold": 12
+    }
+   ],
+   "check": {
+    "expected": "`hand_searching` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "told_you_so",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_3_06_feet_cut.mp4",
+   "problem": "climb_3",
+   "number": "06",
+   "frames": 495,
+   "fps": 30.0,
+   "duration_s": 16.5,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 436,
+   "analysed_fps": 26.4,
+   "events": {
+    "attempt_start": 1,
+    "weight_shift": 1,
+    "feet_cut": 2,
+    "quiet_feet": 1,
+    "feet_low": 1,
+    "top": 1,
+    "route_preview": 1
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "feet_low": 1,
+    "top": 1
+   },
+   "suppressed": {
+    "busy": 5
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "top",
+     "high_hold": 5
+    }
+   ],
+   "check": {
+    "expected": "`feet_cut` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 62.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 155.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_3_07_stall.mp4",
+   "problem": "climb_3",
+   "number": "07",
+   "frames": 1155,
+   "fps": 30.0,
+   "duration_s": 38.5,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 1080,
+   "analysed_fps": 28.1,
+   "events": {
+    "attempt_start": 1,
+    "stalling": 3,
+    "feet_low": 1,
+    "hand_searching": 3
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "stalling": 2,
+    "hand_searching": 1
+   },
+   "suppressed": {
+    "cooldown": 1,
+    "late": 1,
+    "busy": 2
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "downclimb",
+     "high_hold": 5
+    }
+   ],
+   "check": {
+    "expected": "`stalling` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "stalling",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "stalling",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_4_08_quiet_feet.mp4",
+   "problem": "climb_4",
+   "number": "08",
+   "frames": 710,
+   "fps": 30.0,
+   "duration_s": 23.67,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 691,
+   "analysed_fps": 29.2,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "feet_low": 4,
+    "weight_shift": 1,
+    "quiet_feet": 1,
+    "hand_searching": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "feet_low": 2,
+    "weight_shift": 1,
+    "hand_searching": 1
+   },
+   "suppressed": {
+    "busy": 3
+   },
+   "attempts": [],
+   "check": {
+    "expected": "no `quiet_feet`",
+    "ok": false
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_4_09_noisy_feet (1).mp4",
+   "problem": "climb_4",
+   "number": "09",
+   "frames": 1041,
+   "fps": 30.0,
+   "duration_s": 34.7,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 998,
+   "analysed_fps": 28.8,
+   "events": {
+    "attempt_start": 1,
+    "feet_low": 5,
+    "told_you_so": 2,
+    "weight_shift": 1,
+    "hand_searching": 7,
+    "quiet_feet": 3,
+    "fall": 1
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "feet_low": 3,
+    "told_you_so": 2,
+    "fall": 1
+   },
+   "suppressed": {
+    "busy": 3,
+    "budget": 10
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "fall",
+     "high_hold": 17
+    }
+   ],
+   "check": {
+    "expected": "`quiet_feet` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "told_you_so",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 125.33
+    },
+    {
+     "kind": "told_you_so",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "fall",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 171.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_4_09_noisy_feet.mp4",
+   "problem": "climb_4",
+   "number": "09",
+   "frames": 988,
+   "fps": 30.0,
+   "duration_s": 32.93,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 865,
+   "analysed_fps": 26.3,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "quiet_feet": 7,
+    "feet_low": 3,
+    "told_you_so": 1,
+    "weight_shift": 2,
+    "hand_searching": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "quiet_feet": 2,
+    "feet_low": 1,
+    "weight_shift": 1
+   },
+   "suppressed": {
+    "busy": 7,
+    "budget": 3
+   },
+   "attempts": [],
+   "check": {
+    "expected": "`quiet_feet` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 171.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 125.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_5_10_weight_not_shifted.mp4",
+   "problem": "climb_5",
+   "number": "10",
+   "frames": 1166,
+   "fps": 30.0,
+   "duration_s": 38.87,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 1044,
+   "analysed_fps": 26.9,
+   "events": {
+    "attempt_start": 1,
+    "weight_shift": 5,
+    "hand_searching": 4,
+    "feet_low": 4,
+    "quiet_feet": 1,
+    "told_you_so": 1
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "weight_shift": 2,
+    "hand_searching": 2,
+    "quiet_feet": 1,
+    "feet_low": 2
+   },
+   "suppressed": {
+    "busy": 6,
+    "late": 1,
+    "budget": 1
+   },
+   "attempts": [],
+   "check": {
+    "expected": "`weight_shift` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 125.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 125.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_5_11_big_reach_coming_up.mp4",
+   "problem": "climb_5",
+   "number": "11",
+   "frames": 519,
+   "fps": 30.0,
+   "duration_s": 17.3,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 442,
+   "analysed_fps": 25.5,
+   "events": {
+    "attempt_start": 1,
+    "arms_bent": 1,
+    "feet_low": 4,
+    "top": 1
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "feet_low": 2,
+    "top": 1
+   },
+   "suppressed": {
+    "busy": 2,
+    "cooldown": 1
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "top",
+     "high_hold": 8
+    }
+   ],
+   "check": {
+    "expected": "`route_preview` detected",
+    "ok": false
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_6_12-1_new_high_point.mp4",
+   "problem": "climb_6",
+   "number": "12",
+   "frames": 327,
+   "fps": 30.0,
+   "duration_s": 10.9,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 310,
+   "analysed_fps": 28.4,
+   "events": {
+    "attempt_start": 1,
+    "weight_shift": 1,
+    "hand_searching": 1,
+    "quiet_feet": 1
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "hand_searching": 1
+   },
+   "suppressed": {
+    "busy": 2
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "downclimb",
+     "high_hold": 7
+    }
+   ],
+   "check": null,
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_6_12-2_new_high_point.mp4",
+   "problem": "climb_6",
+   "number": "12",
+   "frames": 381,
+   "fps": 30.0,
+   "duration_s": 12.7,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 360,
+   "analysed_fps": 28.3,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "weight_shift": 1,
+    "hand_searching": 2,
+    "high_point": 1,
+    "fall": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "hand_searching": 1,
+    "high_point": 1
+   },
+   "suppressed": {
+    "busy": 2,
+    "late": 1
+   },
+   "attempts": [
+    {
+     "no": 2,
+     "outcome": "fall",
+     "high_hold": 9
+    }
+   ],
+   "check": {
+    "expected": "`high_point` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 62.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 171.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "high_point",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 155.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_6_12-3_new_high_point.mp4",
+   "problem": "climb_6",
+   "number": "12",
+   "frames": 654,
+   "fps": 30.0,
+   "duration_s": 21.8,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 568,
+   "analysed_fps": 26.1,
+   "events": {
+    "route_preview": 2,
+    "attempt_start": 1,
+    "crux_warning": 2,
+    "hand_searching": 1,
+    "feet_low": 1,
+    "high_point": 1,
+    "top": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "high_point": 1,
+    "top": 1
+   },
+   "suppressed": {
+    "lower_priority": 1,
+    "busy": 4
+   },
+   "attempts": [
+    {
+     "no": 3,
+     "outcome": "top",
+     "high_hold": 10
+    }
+   ],
+   "check": {
+    "expected": "`high_point` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 124.33,
+     "total_ms": 171.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 171.33
+    },
+    {
+     "kind": "high_point",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 62.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 171.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_7_13_fall_at_the_crux.mp4",
+   "problem": "climb_7",
+   "number": "13",
+   "frames": 1129,
+   "fps": 30.0,
+   "duration_s": 37.63,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 1073,
+   "analysed_fps": 28.5,
+   "events": {
+    "attempt_start": 3,
+    "quiet_feet": 13,
+    "feet_low": 1,
+    "hand_searching": 17,
+    "crux_warning": 4
+   },
+   "spoken": {
+    "attempt_start": 3,
+    "feet_low": 1,
+    "quiet_feet": 2,
+    "hand_searching": 1
+   },
+   "suppressed": {
+    "busy": 26,
+    "budget": 5
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "downclimb",
+     "high_hold": 9
+    },
+    {
+     "no": 2,
+     "outcome": "downclimb",
+     "high_hold": 9
+    }
+   ],
+   "check": {
+    "expected": "`fall` detected",
+    "ok": false
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 125.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 155.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_8_14_downclimb.mp4",
+   "problem": "climb_8",
+   "number": "14",
+   "frames": 793,
+   "fps": 30.0,
+   "duration_s": 26.43,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 777,
+   "analysed_fps": 29.4,
+   "events": {
+    "attempt_start": 1,
+    "feet_low": 3,
+    "told_you_so": 2,
+    "quiet_feet": 8,
+    "hand_searching": 6
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "feet_low": 2,
+    "told_you_so": 1,
+    "hand_searching": 1,
+    "quiet_feet": 1
+   },
+   "suppressed": {
+    "busy": 10,
+    "budget": 4
+   },
+   "attempts": [],
+   "check": {
+    "expected": "an attempt ends \"downclimb\"",
+    "ok": false
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "told_you_so",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_8_15_jump_off.mp4",
+   "problem": "climb_8",
+   "number": "15",
+   "frames": 402,
+   "fps": 30.0,
+   "duration_s": 13.4,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 390,
+   "analysed_fps": 29.1,
+   "events": {
+    "attempt_start": 1,
+    "feet_low": 1,
+    "hand_searching": 2
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "hand_searching": 1
+   },
+   "suppressed": {
+    "busy": 2
+   },
+   "attempts": [],
+   "check": {
+    "expected": "an attempt ends \"fall\"",
+    "ok": false
+   },
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_9_16_told_you_so_weight_not_shifted.mp4",
+   "problem": "climb_9",
+   "number": "16",
+   "frames": 459,
+   "fps": 30.0,
+   "duration_s": 15.3,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 457,
+   "analysed_fps": 29.9,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "hand_searching": 3,
+    "feet_low": 1,
+    "quiet_feet": 4
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "feet_low": 1,
+    "quiet_feet": 2
+   },
+   "suppressed": {
+    "busy": 5
+   },
+   "attempts": [],
+   "check": {
+    "expected": "`weight_shift` detected",
+    "ok": false
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 62.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_9_17_follow_the_advice_weight_not_shifted.mp4",
+   "problem": "climb_9",
+   "number": "17",
+   "frames": 811,
+   "fps": 30.0,
+   "duration_s": 27.03,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 801,
+   "analysed_fps": 29.6,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "hand_searching": 2,
+    "weight_shift": 1,
+    "quiet_feet": 2,
+    "feet_low": 1,
+    "top": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "weight_shift": 1,
+    "quiet_feet": 1,
+    "hand_searching": 1,
+    "top": 1
+   },
+   "suppressed": {
+    "busy": 3
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "top",
+     "high_hold": 9
+    }
+   ],
+   "check": {
+    "expected": "`weight_shift` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 125.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_9_18_rest_between_attempts (1).mp4",
+   "problem": "climb_9",
+   "number": "18",
+   "frames": 1967,
+   "fps": 30.0,
+   "duration_s": 65.57,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 1904,
+   "analysed_fps": 29.0,
+   "events": {
+    "route_preview": 2,
+    "attempt_start": 2,
+    "hand_searching": 9,
+    "quiet_feet": 4,
+    "high_point": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 2,
+    "hand_searching": 2,
+    "quiet_feet": 1
+   },
+   "suppressed": {
+    "busy": 11,
+    "lower_priority": 1
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "downclimb",
+     "high_hold": 7
+    }
+   ],
+   "check": {
+    "expected": "at least 2 attempts start",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 124.33,
+     "total_ms": 156.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_9_18_rest_between_attempts.mp4",
+   "problem": "climb_9",
+   "number": "18",
+   "frames": 1982,
+   "fps": 30.0,
+   "duration_s": 66.07,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 1956,
+   "analysed_fps": 29.6,
+   "events": {
+    "route_preview": 2,
+    "attempt_start": 2,
+    "feet_cut": 1,
+    "hand_searching": 3,
+    "high_point": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 2,
+    "feet_cut": 1,
+    "hand_searching": 1
+   },
+   "suppressed": {
+    "busy": 4
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "downclimb",
+     "high_hold": 6
+    },
+    {
+     "no": 2,
+     "outcome": "downclimb",
+     "high_hold": 7
+    }
+   ],
+   "check": {
+    "expected": "at least 2 attempts start",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 62.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 155.33
+    },
+    {
+     "kind": "feet_cut",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_9_20_person_walks_infront_of_camera.mp4",
+   "problem": "climb_9",
+   "number": "20",
+   "frames": 699,
+   "fps": 30.0,
+   "duration_s": 23.3,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 690,
+   "analysed_fps": 29.6,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "quiet_feet": 4,
+    "feet_low": 2,
+    "hand_searching": 1,
+    "told_you_so": 1,
+    "top": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "quiet_feet": 2,
+    "feet_low": 1,
+    "told_you_so": 1,
+    "top": 1
+   },
+   "suppressed": {
+    "busy": 4
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "top",
+     "high_hold": 9
+    }
+   ],
+   "check": null,
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 125.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "told_you_so",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_9_21_spotter_standing_close.mp4",
+   "problem": "climb_9",
+   "number": "21",
+   "frames": 741,
+   "fps": 30.0,
+   "duration_s": 24.7,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 738,
+   "analysed_fps": 29.9,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "hand_searching": 1,
+    "fall": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "hand_searching": 1,
+    "fall": 1
+   },
+   "suppressed": {},
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "fall",
+     "high_hold": 8
+    }
+   ],
+   "check": null,
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 125.33
+    },
+    {
+     "kind": "fall",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_9_22_climber_partly_out_of_frame.mp4",
+   "problem": "climb_9",
+   "number": "22",
+   "frames": 604,
+   "fps": 30.0,
+   "duration_s": 20.13,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 599,
+   "analysed_fps": 29.8,
+   "events": {
+    "route_preview": 1
+   },
+   "spoken": {
+    "route_preview": 1
+   },
+   "suppressed": {},
+   "attempts": [],
+   "check": null,
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_10_25_clothing_same_colour_as_holds.mp4",
+   "problem": "climb_10",
+   "number": "25",
+   "frames": 838,
+   "fps": 30.0,
+   "duration_s": 27.93,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 810,
+   "analysed_fps": 29.0,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "feet_low": 4,
+    "told_you_so": 1,
+    "quiet_feet": 1,
+    "hand_searching": 6
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "feet_low": 4
+   },
+   "suppressed": {
+    "busy": 8
+   },
+   "attempts": [],
+   "check": null,
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_11_28_fast_dynamic_move.mp4",
+   "problem": "climb_11",
+   "number": "28",
+   "frames": 451,
+   "fps": 30.0,
+   "duration_s": 15.03,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 447,
+   "analysed_fps": 29.7,
+   "events": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "quiet_feet": 1,
+    "feet_low": 2,
+    "feet_cut": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "quiet_feet": 1,
+    "feet_low": 1,
+    "feet_cut": 1
+   },
+   "suppressed": {
+    "busy": 1
+   },
+   "attempts": [],
+   "check": null,
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_cut",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_12_demo_session_a.mp4",
+   "problem": "climb_12",
+   "number": null,
+   "frames": 1606,
+   "fps": 30.0,
+   "duration_s": 53.53,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 1600,
+   "analysed_fps": 29.9,
+   "events": {
+    "route_preview": 2,
+    "attempt_start": 3,
+    "quiet_feet": 6,
+    "feet_low": 3,
+    "hand_searching": 2,
+    "high_point": 1,
+    "crux_warning": 3
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 3,
+    "quiet_feet": 3,
+    "hand_searching": 1,
+    "crux_warning": 1
+   },
+   "suppressed": {
+    "busy": 8,
+    "budget": 2,
+    "cooldown": 1
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "downclimb",
+     "high_hold": 7
+    },
+    {
+     "no": 2,
+     "outcome": "downclimb",
+     "high_hold": 8
+    }
+   ],
+   "check": null,
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "crux_warning",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_13_demo_session_b.mp4",
+   "problem": "climb_13",
+   "number": null,
+   "frames": 2077,
+   "fps": 30.0,
+   "duration_s": 69.23,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 2042,
+   "analysed_fps": 29.5,
+   "events": {
+    "route_preview": 3,
+    "attempt_start": 2,
+    "feet_cut": 2,
+    "feet_low": 6,
+    "told_you_so": 2,
+    "quiet_feet": 4,
+    "weight_shift": 3,
+    "hand_searching": 1,
+    "top": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 2,
+    "feet_cut": 1,
+    "feet_low": 3,
+    "told_you_so": 1,
+    "weight_shift": 1,
+    "quiet_feet": 1,
+    "top": 1
+   },
+   "suppressed": {
+    "busy": 10,
+    "budget": 3
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "downclimb",
+     "high_hold": 8
+    },
+    {
+     "no": 2,
+     "outcome": "top",
+     "high_hold": 8
+    }
+   ],
+   "check": null,
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "feet_cut",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 63.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "told_you_so",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 108.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "quiet_feet",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_13_demo_session_c.mp4",
+   "problem": "climb_13",
+   "number": null,
+   "frames": 971,
+   "fps": 30.0,
+   "duration_s": 32.37,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 966,
+   "analysed_fps": 29.8,
+   "events": {
+    "route_preview": 1
+   },
+   "spoken": {
+    "route_preview": 1
+   },
+   "suppressed": {},
+   "attempts": [],
+   "check": null,
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_14_04_arms_bent.mp4",
+   "problem": "climb_14",
+   "number": "04",
+   "frames": 1763,
+   "fps": 30.0,
+   "duration_s": 58.77,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 1749,
+   "analysed_fps": 29.8,
+   "events": {
+    "route_preview": 2,
+    "attempt_start": 1,
+    "arms_bent": 1,
+    "feet_low": 2,
+    "hand_searching": 5,
+    "told_you_so": 1,
+    "weight_shift": 3,
+    "top": 1
+   },
+   "spoken": {
+    "route_preview": 1,
+    "attempt_start": 1,
+    "arms_bent": 1,
+    "feet_low": 2,
+    "hand_searching": 2,
+    "told_you_so": 1,
+    "weight_shift": 1,
+    "top": 1
+   },
+   "suppressed": {
+    "busy": 5,
+    "budget": 1
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "top",
+     "high_hold": 12
+    }
+   ],
+   "check": {
+    "expected": "`arms_bent` detected",
+    "ok": true
+   },
+   "cues": [
+    {
+     "kind": "route_preview",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "arms_bent",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 156.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "told_you_so",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "feet_low",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "top",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 125.33
+    }
+   ]
+  },
+  {
+   "clip": "climb_15_demo.mp4",
+   "problem": "climb_15",
+   "number": null,
+   "frames": 838,
+   "fps": 30.0,
+   "duration_s": 27.93,
+   "size": [
+    1080,
+    1920
+   ],
+   "frames_analysed": 834,
+   "analysed_fps": 29.9,
+   "events": {
+    "attempt_start": 1,
+    "quiet_feet": 2,
+    "feet_cut": 1,
+    "hand_searching": 3,
+    "weight_shift": 1,
+    "feet_low": 1,
+    "fall": 1
+   },
+   "spoken": {
+    "attempt_start": 1,
+    "feet_cut": 1,
+    "weight_shift": 1,
+    "hand_searching": 2,
+    "fall": 1
+   },
+   "suppressed": {
+    "busy": 4
+   },
+   "attempts": [
+    {
+     "no": 1,
+     "outcome": "fall",
+     "high_hold": 6
+    }
+   ],
+   "check": null,
+   "cues": [
+    {
+     "kind": "attempt_start",
+     "capture_to_event_ms": 31.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 124.33
+    },
+    {
+     "kind": "feet_cut",
+     "capture_to_event_ms": 32.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 125.33
+    },
+    {
+     "kind": "weight_shift",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 46.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 139.33
+    },
+    {
+     "kind": "hand_searching",
+     "capture_to_event_ms": 47.0,
+     "event_to_audio_ms": 93.33,
+     "total_ms": 140.33
+    },
+    {
+     "kind": "fall",
+     "capture_to_event_ms": 62.0,
+     "event_to_audio_ms": 109.33,
+     "total_ms": 171.33
+    }
+   ]
+  }
+ ]
+}
