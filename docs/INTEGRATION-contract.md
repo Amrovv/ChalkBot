@@ -1,8 +1,10 @@
-# B integration contract — how to wire the coach brain
+# Brain integration contract: how the coach brain is wired
 
-The brain's parts are all built and unit-tested, but nothing assembles them. This is
-the contract the orchestrator (D's `run.py`) must follow. `tests/test_pipeline.py` is
-the executable version of this document — if you change the wiring, keep that test green.
+The order the brain's parts must run in for every frame. `coach.brain.Brain` implements it
+(`coach/brain/__init__.py`), and so do the two offline tools that run the brain without the
+live pipeline, `scripts/replay_brain.py` and `coach/perception/transcript.py`.
+`tests/test_pipeline.py` is the executable version of this document: if you change the
+wiring, keep that test green.
 
 ## Construct once, at startup
 
@@ -75,7 +77,8 @@ The arbiter takes an optional `still_valid(event) -> bool` it calls just before 
 a cue whose condition has passed (e.g. the searching hand already found the hold). Each detector
 exposes `still_valid(event, state)`. The orchestrator should route an event to the `still_valid`
 of the detector that produced it (track event->detector, or dispatch by `event.kind`). If you pass
-`still_valid=None`, every in-TTL event is treated as still valid — acceptable for a first cut.
+`still_valid=None`, every in-TTL event is treated as still valid. `Brain` does this today: it
+offers and decides in the same frame, so a cue's condition cannot have passed in between.
 
 ## Clocks
 
