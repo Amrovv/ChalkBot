@@ -3,7 +3,7 @@
 Runs a synthetic climb through the WHOLE coach brain in the order the orchestrator
 (D's run.py) must use: features -> attempts -> detectors -> memory -> arbiter. The
 per-layer tests prove each piece; this proves they fit together and that the
-integration contract in design-stages-exp/INTEGRATION-contract.md is correct.
+integration contract in docs/INTEGRATION-contract.md is correct.
 """
 
 from __future__ import annotations
