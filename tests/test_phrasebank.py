@@ -248,6 +248,25 @@ def test_render_fills_gaps_without_touching_the_bank(cache_tts, tmp_path, monkey
     assert cache_tts.cached("Off again.") is not None
 
 
+@pytest.mark.parametrize("argv", [["--render"], []])
+def test_render_keeps_lines_over_todays_word_limit(cache_tts, tmp_path, monkeypatch, argv) -> None:
+    # Voice loads the bank as it is, so a line that breaks today's word limit still needs a clip,
+    # and neither --render nor a run without a Gemini key may delete it from the tracked bank.
+    long_line = "You came off that hold yet again, friend."
+    bank = {"fall": {"0": {"neutral": ["Off again.", long_line]}}}
+    bank_path = tmp_path / "phrasebank.json"
+    bank_path.write_text(json.dumps(bank), encoding="utf-8")
+    before = bank_path.read_bytes()
+    monkeypatch.setattr(build_phrasebank, "BANK_PATH", bank_path)
+    monkeypatch.setattr(build_phrasebank, "make_tts", lambda *_args: cache_tts)
+    monkeypatch.setattr(build_phrasebank, "load_dotenv", lambda: None)
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.setattr(sys, "argv", ["build_phrasebank", *argv])
+    build_phrasebank.main()
+    assert bank_path.read_bytes() == before
+    assert cache_tts.cached(long_line) is not None
+
+
 def test_check_never_synthesises(cache_tts) -> None:
     cache_tts.engine.raw = lambda _text: pytest.fail("the check must not render")
     assert check_clips(CHECK_BANK, CHECK_PERSONA, cache_tts) == 1
