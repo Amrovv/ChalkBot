@@ -201,7 +201,7 @@ def test_index_serves_the_dashboard():
     with TestClient(create_app(Bus())) as client:
         r = client.get("/")
     assert r.status_code == 200
-    assert "Climbing Coach" in r.text
+    assert "Chalkbot" in r.text
     assert r.headers["cache-control"] == "no-cache"  # a plain reload picks up changes
 
 

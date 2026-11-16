@@ -112,7 +112,7 @@ class AttemptTracker:
         return make_event("attempt_start", state.t, {"attempt_no": self._attempt_no}, self.config)
 
     def _start_ids(self) -> set[int]:
-        if self.holdmap is None:
+        if self.holdmap is None or not self.holdmap.holds:
             return set()
         start_ids = {hold.id for hold in self.holdmap.holds if hold.role == "start"}
         return start_ids or {min(hold.id for hold in self.holdmap.holds)}
@@ -148,11 +148,19 @@ class AttemptTracker:
             features.add_calibration_sample(state)
             if not self._standing_hips or not self._raised(state, features):
                 self._standing_hips.append(state.hip[1])
-            if self._on_start_holds(state):
-                self._raised_since = self._raised_since or state.t
-                if state.t - self._raised_since >= float(
-                    cfg(self.config, "brain", "start_hold_settle_s")
-                ):
+            # With a hold map an attempt starts when a foot settles on a start hold. Without
+            # one there are no contacts at all, so fall back to the hip staying raised above
+            # standing height; otherwise a colour-only or pose-replay run never starts.
+            if self._start_ids():
+                starting = self._on_start_holds(state)
+                settle_key = "start_hold_settle_s"
+            else:
+                starting = self._raised(state, features)
+                settle_key = "on_wall_settle_s"
+            if starting:
+                if self._raised_since is None:
+                    self._raised_since = state.t
+                if state.t - self._raised_since >= float(cfg(self.config, "brain", settle_key)):
                     events.append(self._enter_wall(state))
             else:
                 self._raised_since = None

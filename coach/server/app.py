@@ -20,7 +20,7 @@ and, when it is also a HoldsControl, build the problem's hold map from the dashb
 
 run.py awaits serve(bus, host, port). Replay a bus log with no pipeline running:
 
-  uv run python -m coach.server.app --replay data/bus_logs/x.jsonl [--loop]
+  uv run python -m coach.server.app --replay data/logs/bus-x.jsonl [--loop]
   then open http://localhost:8000/
 """
 
@@ -227,7 +227,7 @@ def create_app(
         yield
         await hub.stop()
 
-    app = FastAPI(title="Climbing Coach", lifespan=lifespan)
+    app = FastAPI(title="Chalkbot", lifespan=lifespan)
     app.state.hub = hub
     app.state.holds = builder
 

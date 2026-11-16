@@ -152,3 +152,54 @@ def test_missing_limb_yields_zero_speed():
     )
     result = tracker.update(s_partial)
     assert result.limb_speed[Limb.RF] == 0.0
+
+
+def _jitter_frames(tracker, seconds, *, fps=30, amp=0.003, drift_per_s=0.0):
+    """Feed a hip that jitters frame to frame (as pose noise does) around a steady drift."""
+    features = None
+    for i in range(int(seconds * fps)):
+        t = i / fps
+        jitter = amp if i % 2 else -amp
+        features = tracker.update(state(t, hip_y=0.6 + drift_per_s * t + jitter))
+    return features
+
+
+def test_pose_jitter_while_hanging_still_counts_as_static():
+    # Frame-to-frame the hip moves 0.006 in 1/30 s (0.18/s, far over eps), but it goes nowhere.
+    tracker = FeatureTracker(0.02, static_window_s=0.5)
+    features = _jitter_frames(tracker, 5)
+    assert features.hip_speed > 0.02
+    assert features.hip_still_speed < 0.02
+    assert features.hip_static_s > 4
+
+
+def test_slow_real_drift_is_not_static_despite_window():
+    tracker = FeatureTracker(0.02, static_window_s=0.5)
+    features = _jitter_frames(tracker, 3, drift_per_s=0.05)
+    assert features.hip_drift > 0.02
+    assert features.hip_static_s < 0.1
+
+
+def test_limb_drift_is_windowed_too():
+    tracker = FeatureTracker(0.02, static_window_s=0.5)
+    features = None
+    for i in range(30):
+        features = tracker.update(state(i / 30, x=0.2 + (0.003 if i % 2 else -0.003)))
+    assert features.limb_speed[Limb.LH] > 0.02
+    assert features.limb_still_speed[Limb.LH] < 0.02
+
+
+def test_dropout_clears_the_drift_window():
+    tracker = FeatureTracker(0.02, static_window_s=0.5)
+    tracker.update(state(0, hip_y=0.3))
+    tracker.update(state(0.1, hip_y=0.3, person_found=False))
+    reappeared = tracker.update(state(0.2, hip_y=0.9))
+    assert reappeared.hip_drift == 0
+
+
+def test_hand_built_features_fall_back_to_frame_speed():
+    features = FeatureTracker(0.02).update(state())
+    features.hip_drift = None
+    features.limb_drift = None
+    assert features.hip_still_speed == features.hip_speed
+    assert features.limb_still_speed == features.limb_speed

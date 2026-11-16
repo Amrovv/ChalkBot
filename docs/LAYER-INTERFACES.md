@@ -1,11 +1,11 @@
 # Layer interfaces
 
-**Status: proposal from D. A, B and C please confirm in the team chat.** No change to
-`coach/contracts.py`. Everything here matches code that already exists on `main`,
-`a/feat-perception-pipeline` and `daniel`, so no one has to rewrite anything to agree to it.
+How the four layers plug into each other: perception (A), the coach brain (B), the voice (C)
+and the wiring and dashboard (D). The types that cross a boundary are the dataclasses in
+`coach/contracts.py`.
 
-`docs/INTEGRATION-contract.md` (B) still describes how the brain's parts fit together inside
-`Brain`. This page is the layer above it: how A, B, C and D plug into each other.
+`docs/INTEGRATION-contract.md` describes how the brain's parts fit together inside `Brain`.
+This page is the layer above it.
 
 ## The pipeline, and who owns each hop
 
@@ -71,9 +71,9 @@ The integration crash came from two classes both called `LatestQueue`. They do d
 | `voice.is_speaking()` | `True` for the whole of a debrief, including the gaps between streamed sentences (fixed in #12). |
 | **Every voice publishes** | `"spoken"` with a `SpokenLine` when audio actually starts, and `"debrief_text"` per debrief sentence. B's compliance and mood, and the dashboard, depend on it. |
 
-`--voice print` uses D's `stubs.PrintVoice`, because C's `coach/voice/print_voice.py` takes no
-bus and so never publishes `"spoken"`. **Ask for C:** give `PrintVoice` an optional `bus` and publish
-`SpokenLine`. Then `run.py` can switch to it.
+`--voice print` uses D's `stubs.PrintVoice`, which logs a line and publishes `"spoken"`. C's
+`coach/voice/print_voice.py` does the same with the real phrase bank (`make_print_voice`), so
+a print run reads like the demo; `run.py` does not use it yet.
 
 ### D, wiring and dashboard (`run.py`, `coach/stubs.py`, `coach/server`, `web/`)
 
@@ -100,19 +100,14 @@ bus and so never publishes `"spoken"`. **Ask for C:** give `PrintVoice` an optio
 - **Hold ids** are numbered from the bottom (1) to the top (N) everywhere inside the system. Spoken cues may
   describe holds relative to the climber instead (see open decisions).
 
-## Merge order
-
-`daniel` and `a/feat-perception-pipeline` can now merge into `main` in either order. A combined
-trial merge of `main` + A + `daniel` passes the whole test suite and runs `run.py` end to end.
-
-## Open decisions for the team
+## Open decisions
 
 1. **`high_point` counting feet.** Today a foot reaching a new hold counts as a high point.
    Hands-only is the usual climbing meaning. B is happy either way; the team should decide.
 2. **Spoken cues: hold numbers or relative directions** ("left hand, up and left").
    `CoachEvent.data["dir"]` already exists for this, so no contract change is needed: B fills it, C speaks it.
-3. **Climb 2 data.** A to push `data/pose_cache/*.jsonl` and the Climb 2 hold map (shared drive or
-   LFS), so B can run the real end-to-end test.
+3. **Pose caches.** `data/pose_cache/*.jsonl` are not in git, so the ground-truth contact
+   tests skip on a fresh clone; record them with `scripts/record_pose.py`.
 4. **Hold map mid-run (B, optional).** The brain reads the hold map once, when it starts, so a map
    saved from the dashboard restarts analysis (attempt history resets). If the team wants to keep
    the history, B could let `Brain` take a new `"holdmap"` from the bus while running; D would then

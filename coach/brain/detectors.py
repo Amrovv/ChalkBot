@@ -156,8 +156,8 @@ class ArmsBent(Detector):
         bent = all(
             angles.get(side) is not None and angles[side] < limit for side in ("left", "right")
         )
-        static = features.hip_speed <= eps and all(
-            value <= eps for value in features.limb_speed.values()
+        static = features.hip_still_speed <= eps and all(
+            value <= eps for value in features.limb_still_speed.values()
         )
         # A 5% release band is deliberately relative to the configured trigger.
         release = all(
@@ -544,7 +544,7 @@ class WeightShift(Detector):
         self, features: Features, state: ClimberState, ctx: DetectorContext
     ) -> list[CoachEvent]:
         eps = float(_brain(ctx, "move_speed_eps"))
-        static = features.hip_speed <= eps
+        static = features.hip_still_speed <= eps
         if not static or features.leg_length <= 0:
             self._one_shot(False, False, state.t, 0)
             self._active_foot = None

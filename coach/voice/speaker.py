@@ -76,6 +76,9 @@ class Speaker:
             channels=1,
             dtype="float32",
             device=device,
+            # "high" (the default) is ~180 ms on Windows MME, which alone uses up the arbiter's
+            # 200 ms start margin, so every cue was skipped as late.
+            latency="low",
             callback=self._callback,
         )
         self._stream.start()

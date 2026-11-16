@@ -1,5 +1,5 @@
 ---
-name: Climbing Coach
+name: Chalkbot
 description: A live bouldering coach's logbook, read from across the room.
 colors:
   graphite-page: "#16181b"
@@ -105,7 +105,7 @@ components:
     typography: "{typography.title}"
 ---
 
-# Design System: Climbing Coach
+# Design System: Chalkbot
 
 ## Overview
 

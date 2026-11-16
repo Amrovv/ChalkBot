@@ -311,15 +311,34 @@ def main() -> None:
         # Voice loads the file as it is, pruned or not, so check every line in it.
         if pruned:
             log.warning(
-                "%d lines in %s break today's rules; --render drops them", pruned, BANK_PATH
+                "%d lines in %s break today's rules; regenerating with Gemini drops them",
+                pruned,
+                BANK_PATH,
             )
         raise SystemExit(check_clips(on_disk, persona, make_tts(voice_cfg, persona)))
 
+    if args.render:
+        # Voice loads the file as it is, so render every line in it. Pruning here would
+        # silently delete hand-written lines from the tracked bank.
+        texts = render_texts(
+            on_disk,
+            persona["colours"],
+            persona["fillers"],
+            place_names(persona.get("hold_places", ())),
+        )
+        tts = make_tts(voice_cfg, persona)
+        for text in texts:
+            tts.synth(text)
+        print(f"{len(texts)} clips rendered")
+        return
+
     api_key = os.environ.get("GEMINI_API_KEY")
     model = args.model or voice_cfg.get("llm_model")
-    missing = "--render was set" if args.render else missing_llm_setting(api_key, model)
+    missing = missing_llm_setting(api_key, model)
     if missing:
+        # Nothing new to generate, so keep every line as it is rather than prune the bank.
         log.warning("skipping line generation: %s", missing)
+        bank = on_disk
     else:
         ask = make_ask(api_key, model, persona_instruction(persona))
         kinds = tuple(args.only) if args.only else EVENT_KINDS
@@ -331,7 +350,7 @@ def main() -> None:
     if args.dry_run:
         print(json.dumps(bank, indent=2, ensure_ascii=False))
     else:
-        if not missing or pruned:
+        if not missing:
             write_bank(bank)
         tts = make_tts(voice_cfg, persona)
         for text in texts:

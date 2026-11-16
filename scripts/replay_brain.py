@@ -153,7 +153,10 @@ def main() -> int:
     # Construct once, at startup  (INTEGRATION-contract.md §"Construct once")
     # ------------------------------------------------------------------
     voice = PrintVoice()
-    ft = FeatureTracker(float(config["brain"]["move_speed_eps"]))
+    ft = FeatureTracker(
+        float(config["brain"]["move_speed_eps"]),
+        float(config["brain"].get("static_window_s", 0.5)),
+    )
     at = AttemptTracker(holdmap, config)
     detectors = mvp_detectors(config) + good_tier_detectors(config)
     mem = Memory(voice, config)

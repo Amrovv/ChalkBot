@@ -154,10 +154,6 @@ def test_gate(context):
     assert detector.update(feature(hip_static_s=10, hip_speed=hip_speed), state(0.1), context) == []
 
 
-def test_missing_optional_integration_data_is_skipped():
-    pytest.skip("optional labelled footage is not present in this checkout")
-
-
 def test_feet_low_release_band_suppresses_refiring():
     # After FeetLow fires, hovering the ratio just below the trigger threshold
     # but above the 95% release band should NOT re-arm the detector.

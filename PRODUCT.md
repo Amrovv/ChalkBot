@@ -13,7 +13,7 @@ spoken cues but is not the dashboard's main reader. The team also uses its laten
 panels while building, but that is secondary.
 
 ## Product Purpose
-Climbing Coach is a real-time AI bouldering coach built for incident.io's "Live commentator"
+Chalkbot is a real-time AI bouldering coach built for incident.io's "Live commentator"
 hackathon challenge (24 h, team of 4). A fixed camera watches a climber. The system speaks short
 coaching cues mid-climb and gives a persona-driven debrief between attempts, remembering earlier
 attempts. Success means the live demo convinces judges of three things:
@@ -39,13 +39,13 @@ coach knows the actual problem: a hold map built from the empty wall, numbered b
 - Every cue has a deadline; late cues are skipped, and suppressed cues are reported to the dashboard.
 - Coordinates are normalised 0-1, origin top-left, y down.
 - Limbs: left hand, right hand, left foot, right foot.
-- Ownership: `web/`, `coach/server/`, `run.py` and `demo/` belong to owner D. Payload shapes come from `coach/contracts.py` (owner B; changes by PR plus team agreement).
-- **Open:** coach personas and voice are not decided yet (owner C, `config/personas/`).
+- Payload shapes come from `coach/contracts.py`.
+- Persona: Coach Harrow (`config/personas/coach.yaml`), a dry retired competition coach, voiced by Kokoro.
 
 ## Evidence on Hand
-- `videos/test_climb.mp4`: one test climb clip.
-- Footage and the pose model come from the team's shared drive (`data/`, `models/` are gitignored).
-- No latency measurements, user feedback or testimonials yet. Don't make any up; real latency figures will come from `scripts/bench_latency.py`.
+- Footage: the team's own test clips in `videos/` (gitignored), one per scenario, listed in `TEST_CLIMBS.md`. The pose model comes from MediaPipe's public URL (`models/README.md`).
+- Latency is measured: `docs/BENCHMARKS.md`, from `scripts/bench_pipeline.py`. On 32 clips, 164 cues spoken, frame to audio median 140 ms, p95 171 ms, max 186 ms, all inside the 800 ms target. Quote only figures from that file, with its caveats.
+- No user feedback or testimonials. Don't make any up.
 
 ## Product Principles
 1. **Latency is visible.** The live loop and its timing should be plain to see; being in sync with the climb is the proof.

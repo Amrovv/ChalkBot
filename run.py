@@ -4,7 +4,7 @@ No business logic here. Each layer comes from its owner's package when it exists
 to coach/stubs.py when it doesn't, so this always runs. The interface between the layers is
 docs/LAYER-INTERFACES.md.
 
-  uv run python run.py --source file:videos/test_climb.mp4 --problem demo --voice print
+  uv run python run.py --source file:videos/<clip>.mp4 --problem climb_1 --voice print
   uv run python run.py --replay-pose data/pose_cache/clip.jsonl --problem demo --voice print
   uv run python run.py --source cam:0 --problem pink-v3 --voice real
   then open http://localhost:8000/
@@ -31,6 +31,7 @@ import re
 import signal
 import threading
 import time
+from collections.abc import Iterable
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -51,7 +52,10 @@ SWITCH_SETTLE_S = 0.05  # lets the old source's last frames reach the dashboard 
 EMPTY_WALL_AT_S = 1.0  # hold maps are built from this far into an empty-wall clip
 CLIP_END_MARGIN_S = 0.1  # a still is read at least this long before a clip's end (seeking to
 # the very end reads nothing)
-CLIP_NAME = re.compile(r"(.+?)_(\d{2})(?:-\d+)?_")  # <problem>_<clip no>_<name> (TEST_CLIMBS.md)
+# <problem>_<clip no>_<name> (TEST_CLIMBS.md). Greedy, so the problem is the longest prefix a
+# two-digit clip number follows: "climb_10_00_empty_wall" is problem "climb_10", clip 00 (read
+# lazily it was problem "climb", clip 10, and no empty wall was offered for problems 10 and up).
+CLIP_NAME = re.compile(r"(.+)_(\d{2})(?:-\d+)?_")
 SHUTDOWN_TIMEOUT_S = 3.0
 FRAME_POLL_S = 0.2  # pose thread re-checks for shutdown this often while waiting for a frame
 JOIN_TIMEOUT_S = 2.0
@@ -100,9 +104,11 @@ def build_hello(args: argparse.Namespace, probe=clip_info) -> dict:
 
 
 def file_spec(path: str | Path) -> str:
-    """file:<path>, relative to the repo when it's inside it, so the same clip has one spec."""
+    """file:<path>, relative to the repo when it's inside it, so the same clip has one spec.
+    Always with forward slashes: the dashboard sends a spec back as it got it, and on Windows
+    a backslash spec would not match the one the server offered."""
     full = Path(path).resolve()
-    return f"file:{full.relative_to(ROOT) if full.is_relative_to(ROOT) else full}"
+    return f"file:{(full.relative_to(ROOT) if full.is_relative_to(ROOT) else full).as_posix()}"
 
 
 def spec_of(args: argparse.Namespace) -> str:
@@ -130,13 +136,27 @@ def list_clips(video_dir: Path = VIDEO_DIR) -> list[Path]:
     return sorted(clips, key=natural_key)
 
 
-def problem_for(clip: Path, default: str) -> str:
-    """The problem id for a clip named <problem>_<clip no>_<name> (TEST_CLIMBS.md):
+def holdmap_ids() -> set[str]:
+    """The problems that have a hold map (data/holdmaps/<id>.json)."""
+    folder = ROOT / "data" / "holdmaps"
+    return {p.stem for p in folder.glob("*.json")} if folder.is_dir() else set()
+
+
+def problem_for(clip: Path, default: str, known: Iterable[str] = ()) -> str:
+    """The problem id for a clip.
+
+    A clip named after a problem that has a hold map (`known`) belongs to it: the longest id
+    the name starts with, so "climb_12_demo_session_a" is "climb_12" (the number pattern below
+    alone reads it as problem "climb", clip 12, which has no map and so no contacts).
+    Otherwise a clip named <problem>_<clip no>_<name> (TEST_CLIMBS.md) gives its problem:
     "climb_2_05_hand_searching" -> "climb_2". Other names keep the default (--problem).
 
     A hold map only fits footage from the same camera position, so a clip never borrows a
     similarly named map (A's "climb2" is different footage from our "climb_2" clips).
     """
+    named = [k for k in known if clip.stem == k or clip.stem.startswith(f"{k}_")]
+    if named:
+        return max(named, key=len)
     m = CLIP_NAME.match(clip.stem)
     return m.group(1) if m else default
 
@@ -187,7 +207,7 @@ def source_spec(text: str) -> int | str:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Climbing Coach: live cues and debriefs.")
+    p = argparse.ArgumentParser(description="Chalkbot: live cues and debriefs.")
     p.add_argument("--source", type=source_spec, help="cam:N or file:PATH")
     p.add_argument("--replay-pose", type=Path, metavar="PATH.jsonl", help="replay recorded poses")
     p.add_argument(
@@ -670,7 +690,7 @@ class Session:
         if spec == BROWSER_SPEC:
             return argparse.Namespace(**{**base, "source": BrowserCamera()})
         path = spec.removeprefix("file:")
-        problem = problem_for(Path(path), self.initial.problem)
+        problem = problem_for(Path(path), self.initial.problem, holdmap_ids())
         return argparse.Namespace(**{**base, "source": str(ROOT / path), "problem": problem})
 
     # start, stop and switch share one lock: a switch the dashboard asks for while the first
@@ -808,10 +828,11 @@ class Session:
         Videos carry their "duration" (seconds), so the editor can pick any moment of them;
         "live" marks the video being analysed. The builder moves the walls filmed from
         somewhere else to the end."""
+        known = holdmap_ids()
         walls = [
             clip
             for clip in list_clips(self.video_dir)
-            if is_empty_wall(clip) and problem_for(clip, "") == self.problem_id
+            if is_empty_wall(clip) and problem_for(clip, "", known) == self.problem_id
         ]
         walls.sort(key=lambda clip: re.search(r" \(\d+\)$", clip.stem) is not None)  # copies last
         out = [self._video_still(clip, f"Empty wall · {clip.name}") for clip in walls]
@@ -916,12 +937,9 @@ async def main(args: argparse.Namespace) -> int:
 
     server = None
     if not args.fast:
-        create_app = load("coach.server", "create_app", stubs.create_app)
-        if "control" in inspect.signature(create_app).parameters:
-            app = create_app(bus, None, control=session)
-        else:  # the older stub server can't switch sources
-            app = create_app(bus, build_hello(args))
-        server = QuietServer(app, args.host, args.port)
+        from coach.server import create_app
+
+        server = QuietServer(create_app(bus, None, control=session), args.host, args.port)
 
     tasks = [asyncio.create_task(bus_log.run(), name="bus-log")]
     if transcript is not None:

@@ -28,6 +28,8 @@ logger = logging.getLogger(__name__)
 
 # Cue kinds whose compliance we can check from pose alone.
 WATCHED_KINDS = ("arms_bent", "feet_low", "hand_searching", "stalling")
+# Spoken lines that mark the attempt itself, not advice: never listed as a cue given.
+LIFECYCLE_KINDS = ("attempt_start", "fall", "top")
 
 
 def _brain(config: dict[str, Any], name: str) -> Any:
@@ -104,14 +106,17 @@ class Memory:
     # ---- feeds (called by the orchestrator each tick / on each bus message) ----
 
     def on_event(self, event: CoachEvent) -> None:
-        """Record an emitted cue for habit counting and spoken-line matching."""
+        """Record a detected event for habit counting and spoken-line matching."""
         self._recent_events.append(event)
         self._kinds_this_attempt.add(event.kind)
-        self._cue_kinds_this_attempt.append(event.kind)
         self._habit_total[event.kind] += 1
 
     def on_spoken(self, spoken: SpokenLine) -> None:
-        """A line was actually spoken; start a compliance watch for watched cues."""
+        """A line was actually spoken: it is a cue the climber was given (the attempt summary
+        lists those, not every event the arbiter turned down). Watched cues also start a
+        compliance watch."""
+        if spoken.kind not in LIFECYCLE_KINDS:
+            self._cue_kinds_this_attempt.append(spoken.kind)
         if spoken.kind not in WATCHED_KINDS:
             return
         self._cues_given += 1
@@ -213,7 +218,7 @@ class Memory:
 
     def _complied(self, watch: _Watch, state: ClimberState, features: Features) -> bool:
         if watch.kind == "stalling":
-            return features.hip_speed > float(_brain(self.config, "move_speed_eps"))
+            return features.hip_still_speed > float(_brain(self.config, "move_speed_eps"))
         if watch.kind == "arms_bent":
             limit = float(_brain(self.config, "arms_bent_deg")) + float(
                 _brain(self.config, "arms_bent_comply_margin_deg")
