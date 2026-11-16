@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import deque
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from math import atan2, degrees, hypot
@@ -61,7 +62,21 @@ class Features:
     leg_length: float = 0.0
     highest_hold_id: int | None = None
     hand_moving_no_contact_s: dict[Limb, float] = field(default_factory=dict)
+    # Net movement over the last static_window_s, per second. Frame-to-frame speed is mostly
+    # pose jitter when someone hangs still; over a window the jitter cancels and real movement
+    # does not. None when the tracker did not fill it in (features built by hand in tests).
+    hip_drift: float | None = None
+    limb_drift: dict[Limb, float] | None = None
     _calibrate: Callable[[ClimberState], None] | None = field(default=None, repr=False)
+
+    @property
+    def hip_still_speed(self) -> float:
+        """The hip speed to judge stillness by: windowed when known, else frame-to-frame."""
+        return self.hip_speed if self.hip_drift is None else self.hip_drift
+
+    @property
+    def limb_still_speed(self) -> dict[Limb, float]:
+        return self.limb_speed if self.limb_drift is None else self.limb_drift
 
     def add_calibration_sample(self, state: ClimberState) -> None:
         """Forward a standing sample to the tracker that produced this snapshot."""
@@ -72,8 +87,13 @@ class Features:
 class FeatureTracker:
     """Keep the small amount of history needed by the attempt and cue logic."""
 
-    def __init__(self, move_speed_eps: float = 0.02) -> None:
+    def __init__(self, move_speed_eps: float = 0.02, static_window_s: float = 0.5) -> None:
         self.move_speed_eps = float(move_speed_eps)
+        self.static_window_s = float(static_window_s)
+        self._hip_trail: deque[tuple[float, tuple[float, float]]] = deque()
+        self._limb_trail: dict[Limb, deque[tuple[float, tuple[float, float]]]] = {
+            limb: deque() for limb in Limb
+        }
         self._previous: ClimberState | None = None
         self._hip_static_s = 0.0
         self._hand_search_s = {Limb.LH: 0.0, Limb.RH: 0.0}
@@ -92,6 +112,22 @@ class FeatureTracker:
             self._arm_samples.append(arm)
         if leg is not None:
             self._leg_samples.append(leg)
+
+    def _drift(
+        self,
+        trail: deque[tuple[float, tuple[float, float]]],
+        t: float,
+        point: tuple[float, float],
+    ) -> float:
+        """Net speed of a point since the oldest sample inside the window (always at least
+        the previous sample, so widely spaced frames give plain frame-to-frame speed)."""
+        while len(trail) > 1 and t - trail[1][0] >= self.static_window_s:
+            trail.popleft()
+        speed = 0.0
+        if trail and t > trail[0][0]:
+            speed = _distance(point, trail[0][1]) / (t - trail[0][0])
+        trail.append((t, point))
+        return speed
 
     def reset_highest_hold(self) -> None:
         """Reset the highest hold tracker at the start of a new attempt."""
@@ -119,9 +155,21 @@ class FeatureTracker:
         hip_speed = 0.0
         if continuous and dt > 0:
             hip_speed = _distance(state.hip, previous.hip) / dt
-        if previous is not None and dt > 0 and hip_speed < self.move_speed_eps:
+        if not continuous:  # a dropout: the trail before it says nothing about movement now
+            self._hip_trail.clear()
+            for trail in self._limb_trail.values():
+                trail.clear()
+        hip_drift = self._drift(self._hip_trail, state.t, state.hip)
+        limb_drift = {limb: 0.0 for limb in Limb}
+        for limb, trail in self._limb_trail.items():
+            point = state.limbs.get(limb)
+            if point is None:
+                trail.clear()
+            else:
+                limb_drift[limb] = self._drift(trail, state.t, point)
+        if previous is not None and dt > 0 and hip_drift < self.move_speed_eps:
             self._hip_static_s += dt
-        elif hip_speed >= self.move_speed_eps:
+        elif hip_drift >= self.move_speed_eps:
             self._hip_static_s = 0.0
 
         for hand in (Limb.LH, Limb.RH):
@@ -159,6 +207,8 @@ class FeatureTracker:
             leg_length=median(self._leg_samples) if self._leg_samples else (current_leg or 0.0),
             highest_hold_id=self._highest_hold_id,
             hand_moving_no_contact_s=dict(self._hand_search_s),
+            hip_drift=hip_drift,
+            limb_drift=limb_drift,
             _calibrate=self.add_calibration_sample,
         )
 

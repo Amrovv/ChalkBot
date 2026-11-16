@@ -100,7 +100,10 @@ class TranscriptEngine:
         self.config, self.holdmap = config, holdmap
         self.clock = [0.0]
         self.voice = _TextVoice(config, holdmap, self.clock)
-        self.features = FeatureTracker(float(config["brain"]["move_speed_eps"]))
+        self.features = FeatureTracker(
+            float(config["brain"]["move_speed_eps"]),
+            float(config["brain"].get("static_window_s", 0.5)),
+        )
         self.attempts = AttemptTracker(holdmap, config)
         self.detectors = mvp_detectors(config) + good_tier_detectors(config)
         self.memory = Memory(self.voice, config)

@@ -66,6 +66,8 @@ brain:
 
   # Features + attempts (B3)
   move_speed_eps: 0.02      # normalised units/s; below this a limb/hip counts as static
+  static_window_s: 0.5      # stillness is net movement over this window, not frame-to-frame speed
+                            # (pose jitter alone is over move_speed_eps on about a third of frames)
   on_wall_settle_s: 0.5     # no hold map only: hip must stay raised this long to start an attempt
   top_hold_s: 0.0           # both hands on the top hold = immediate successful climb
   top_hand_margin: 0.04     # finish-only fallback for hands just outside a detector box

@@ -218,7 +218,7 @@ class Memory:
 
     def _complied(self, watch: _Watch, state: ClimberState, features: Features) -> bool:
         if watch.kind == "stalling":
-            return features.hip_speed > float(_brain(self.config, "move_speed_eps"))
+            return features.hip_still_speed > float(_brain(self.config, "move_speed_eps"))
         if watch.kind == "arms_bent":
             limit = float(_brain(self.config, "arms_bent_deg")) + float(
                 _brain(self.config, "arms_bent_comply_margin_deg")
