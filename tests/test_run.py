@@ -208,6 +208,8 @@ async def test_fast_pose_replay_runs_end_to_end(monkeypatch, tmp_path):
     [
         ("climb_2_05_hand_searching.mp4", "climb_2"),  # never A's "climb2": other footage
         ("climb_6_12-1_new_high_point.mp4", "climb_6"),
+        ("climb_10_00_empty_wall.mp4", "climb_10"),  # not problem "climb", clip 10
+        ("climb_14_04_arms_bent.mp4", "climb_14"),
         ("pink-v3_07_stall.mp4", "pink-v3"),
         ("Vidéo 07-11-2026 19 03 59.mp4", "fallback"),
     ],
@@ -219,7 +221,33 @@ def test_problem_for_reads_the_clip_name(name, expected):
 @pytest.mark.parametrize(
     ("name", "expected"),
     [
+        ("climb_12_demo_session_a.mp4", "climb_12"),  # no clip number: read as "climb", clip 12
+        ("climb_1_02_clean_send.mp4", "climb_1"),  # never the longer "climb_12"
+        ("climb_12.mp4", "climb_12"),
+        ("climb_7_13_fall_at_the_crux.mp4", "climb_7"),  # no map for it: the name pattern
+        ("holiday.mp4", "fallback"),
+    ],
+)
+def test_a_clip_named_after_a_problem_with_a_hold_map_belongs_to_it(name, expected):
+    known = {"climb_1", "climb_12", "climb2"}
+    assert run.problem_for(Path(name), "fallback", known) == expected
+
+
+def test_file_spec_uses_forward_slashes_on_every_platform(tmp_path, monkeypatch):
+    # The dashboard posts a spec back as the server offered it; on Windows a backslash
+    # spec never matched, so no clip could be picked.
+    monkeypatch.setattr(run, "ROOT", tmp_path)
+    clip = tmp_path / "videos" / "mp4" / "climb_1_02_send.mp4"
+    assert run.file_spec(clip) == "file:videos/mp4/climb_1_02_send.mp4"
+    assert "\\" not in run.file_spec(tmp_path.parent / "elsewhere" / "clip.mp4")
+
+
+@pytest.mark.parametrize(
+    ("name", "expected"),
+    [
         ("climb_9_00_empty_wall.mp4", True),
+        ("climb_10_00_empty_wall.mp4", True),  # a two-digit problem: once read as clip 10
+        ("climb_10_25_clothing_same_colour_as_holds.mp4", False),
         ("climb_9_00_empty_wall_out_of_frame.mp4", True),
         ("climb_9_18_rest_between_attempts.mp4", False),
         ("Vidéo 07-11-2026 19 03 59.mp4", False),
