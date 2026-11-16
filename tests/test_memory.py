@@ -273,3 +273,31 @@ def test_crux_hold_tie_is_deterministic():
     assert first_result is not None
     for _ in range(10):
         assert mem.crux_hold() == first_result, "crux_hold() is not deterministic for tied scores"
+
+
+def test_cues_given_lists_what_was_spoken_not_every_detected_event():
+    # The arbiter turns most detections down (busy, cooldown, budget). The summary the
+    # debrief works from must list the cues the climber actually heard.
+    mem = Memory(FakeVoice(), CONFIG)
+    for t, kind in ((10.0, "feet_low"), (10.5, "arms_bent"), (11.0, "feet_low")):
+        mem.on_event(CoachEvent(t=t, kind=kind, priority=1, ttl_s=1.2))
+    mem.observe(st(9.9), feat())
+    mem.on_spoken(SpokenLine(t_event=10.0, t_audio_start=10.1, kind="feet_low", text="Feet up."))
+
+    result = summary(1)
+    mem.on_attempt_end(result)
+
+    assert result.cues_given == ["feet_low"]
+    assert mem.habits().as_dict()["arms_bent"] == {"attempts": 1, "total": 1}  # still counted
+
+
+def test_attempt_markers_are_not_listed_as_cues():
+    mem = Memory(FakeVoice(), CONFIG)
+    for kind in ("attempt_start", "fall", "top"):
+        mem.on_spoken(SpokenLine(t_event=1.0, t_audio_start=1.1, kind=kind, text="x"))
+    mem.on_spoken(SpokenLine(t_event=2.0, t_audio_start=2.1, kind="high_point", text="x"))
+
+    result = summary(1)
+    mem.on_attempt_end(result)
+
+    assert result.cues_given == ["high_point"]

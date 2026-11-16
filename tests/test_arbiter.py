@@ -272,3 +272,35 @@ def test_budget_unblocks_when_only_oldest_exits_window() -> None:
         "budget should unblock once the oldest entry exits the window, "
         "even if other entries are still inside it"
     )
+
+
+def test_preferred_kind_wins_a_same_priority_tie() -> None:
+    # config arbiter.preference_by_kind: actionable directional guidance beats another
+    # cue of the same priority offered in the same tick, whatever order they arrive in.
+    for order in (("hand_searching", "feet_low"), ("feet_low", "hand_searching")):
+        clock, voice, published = FakeClock(), FakeVoice(), []
+        arbiter = Arbiter(
+            voice,
+            {"arbiter": {**config(), "preference_by_kind": {"hand_searching": 10.0}}},
+            clock=clock,
+            publish=lambda topic, payload, sink=published: sink.append((topic, payload)),
+        )
+        for kind in order:
+            arbiter.offer(event(kind, 1), 1, "neutral")
+
+        assert arbiter.tick().kind == "hand_searching"
+        assert reasons(published) == ["lower_priority"]
+
+
+def test_preference_never_beats_a_higher_priority() -> None:
+    clock, voice, published = FakeClock(), FakeVoice(), []
+    arbiter = Arbiter(
+        voice,
+        {**config(), "preference_by_kind": {"hand_searching": 10.0}},
+        clock=clock,
+        publish=lambda topic, payload: published.append((topic, payload)),
+    )
+    arbiter.offer(event("hand_searching", 1), 1, "neutral")
+    arbiter.offer(event("fall", 0), 1, "neutral")
+
+    assert arbiter.tick().kind == "fall"

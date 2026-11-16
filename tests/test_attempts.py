@@ -390,3 +390,35 @@ def test_holding_the_top_does_not_start_new_attempts():
     # No "high_point" here: attempt 1 has no finished attempt to beat yet (PR #25).
     assert kinds == ["attempt_start", "top", "attempt_start", "top"]
     assert [a.outcome for a in tracker.finished_attempts] == ["top", "top"]
+
+
+def test_without_a_hold_map_an_attempt_starts_once_the_hip_stays_raised():
+    # No hold map means no contacts, so "a foot on a start hold" can never be true. The
+    # tracker falls back to the hip staying above standing height for on_wall_settle_s;
+    # without that a colour-only or pose-replay run never starts an attempt at all.
+    feature = FeatureTracker()
+    attempt = AttemptTracker(None, CONFIG)
+    assert run(attempt, feature, s(0)) == []  # standing: calibrates the standing height
+    assert run(attempt, feature, s(0.2, hip=0.45)) == []  # raised, not yet settled
+    assert run(attempt, feature, s(0.5, hip=0.45)) == []
+    events = run(attempt, feature, s(0.8, hip=0.45))
+    assert [e.kind for e in events] == ["attempt_start"]
+    assert attempt.phase == "ON_WALL"
+
+
+def test_a_brief_hip_rise_without_a_hold_map_does_not_start_an_attempt():
+    feature = FeatureTracker()
+    attempt = AttemptTracker(None, CONFIG)
+    run(attempt, feature, s(0))
+    run(attempt, feature, s(0.2, hip=0.45))
+    run(attempt, feature, s(0.4, hip=0.7))  # back down before on_wall_settle_s
+    assert run(attempt, feature, s(0.9, hip=0.45)) == []  # the timer started again
+    assert attempt.phase == "GROUND"
+
+
+def test_a_hold_map_with_no_holds_does_not_crash_the_tracker():
+    # Regression: an empty map reached min() of an empty sequence on every grounded frame.
+    feature = FeatureTracker()
+    attempt = AttemptTracker(HoldMap("p", "pink", [], (100, 100), "colour"), CONFIG)
+    assert run(attempt, feature, s(0)) == []
+    assert run(attempt, feature, s(0.5, contacts={Limb.LF: 1})) == []

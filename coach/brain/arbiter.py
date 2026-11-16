@@ -79,7 +79,15 @@ class Arbiter:
         if not eligible:
             return None
 
-        chosen = min(eligible, key=lambda candidate: (candidate[0].priority, -candidate[0].t))
+        # Lowest priority number first; among equals the preferred kind, then the newest.
+        chosen = min(
+            eligible,
+            key=lambda candidate: (
+                candidate[0].priority,
+                -self._preference_for(candidate[0].kind),
+                -candidate[0].t,
+            ),
+        )
         chosen_event, level, mood = chosen
         for event, _, _ in eligible:
             if event is not chosen_event:
@@ -111,6 +119,11 @@ class Arbiter:
         section = self._config.get("arbiter", self._config)
         overrides = section.get("cooldown_by_kind", {})
         return float(overrides.get(kind, section["cooldown_s"]))
+
+    def _preference_for(self, kind: str) -> float:
+        """Tie-break weight for cues of the same priority offered in one tick (default 0)."""
+        section = self._config.get("arbiter", self._config)
+        return float(section.get("preference_by_kind", {}).get(kind, 0.0))
 
     def _trim_budget(self, now: float) -> None:
         cutoff = now - self._value("budget_window_s")
